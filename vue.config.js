@@ -3,5 +3,5 @@ module.exports = defineConfig({
   transpileDependencies: [
     'vuetify'
   ],
-  publicPath: process.env.NODE_ENV === "production" ? "/I538805/ESP-Radio-Frontend/dist/" : "/",
+  publicPath: process.env.NODE_ENV === "production" ? "/ESP-Radio-Frontend/dist/" : "/",
 })
