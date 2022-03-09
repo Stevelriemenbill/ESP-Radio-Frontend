@@ -1,83 +1,77 @@
 <template>
   <v-container>
     <v-row no-gutters>
-      <v-col md="4"></v-col>
       <v-col md="4">
+        <v-card>
+          <v-row dense>
+            <v-col class="pa-3 lcd console">
+              <v-row dense>
+                <v-col>
+                  <v-icon v-if="currentlyPlaying" color="white">mdi-stop</v-icon>
+                  <v-icon v-else color="white">mdi-play</v-icon>
+                </v-col>
+                <v-col>
+                  <v-icon color="white">mdi-skip-backward</v-icon>
+                </v-col>
+                <v-col>
+                  <v-icon color="white">mdi-skip-forward</v-icon>
+                </v-col>
+                <v-col>
+                  <div class="equalizer">
+                    <div :class="eq1" class="eq-bar">
+                      <span></span>
+                    </div>
+                    <div :class="eq2" class="eq-bar">
+                      <span></span>
+                    </div>
+                    <div :class="eq3" class="eq-bar">
+                      <span></span>
+                    </div>
+                    <div :class="eq4" class="eq-bar">
+                      <span></span>
+                    </div>
+                    <div :class="eq5" class="eq-bar">
+                      <span></span>
+                    </div>
+                  </div>
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col>
+                  Radio Station:
+                </v-col>
+                <v-col>
+                  {{ currentlyPlaying }}
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col>
+                  Runtime:
+                </v-col>
+                <v-col>
+                  {{ toHHMMSS(runtime) }}
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col>
+                  Song:
+                </v-col>
+                <v-col>
+                  {{ currentSong }}
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-card>
+        <v-row>
+          <v-col>
+            <VolumeControl/>
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col md="8">
         <ChannelChooser/>
       </v-col>
-      <v-col md="4"></v-col>
-    </v-row>
-    <v-row dense>
-      <v-col md="4"></v-col>
-      <v-col md="4" class="pa-3 lcd console">
-        <div>
-          <v-row dense>
-            <v-col>
-              <v-icon v-if="currentlyPlaying" color="white">mdi-stop</v-icon>
-              <v-icon v-else color="white">mdi-play</v-icon>
-            </v-col>
-            <v-col>
-            </v-col>
-            <v-col>
-              <v-icon color="white">mdi-skip-backward</v-icon>
-            </v-col>
-            <v-col>
-              <v-icon color="white">mdi-skip-forward</v-icon>
-            </v-col>
-            <v-col>
-              <div class="equalizer">
-                <div :class="eq1" class="eq-bar">
-                  <span></span>
-                </div>
-                <div :class="eq2" class="eq-bar">
-                  <span></span>
-                </div>
-                <div :class="eq3" class="eq-bar">
-                  <span></span>
-                </div>
-                <div :class="eq4" class="eq-bar">
-                  <span></span>
-                </div>
-                <div :class="eq5" class="eq-bar">
-                  <span></span>
-                </div>
-              </div>
-            </v-col>
-          </v-row>
-          <v-row dense>
-            <v-col>
-              Radio Station:
-            </v-col>
-            <v-col>
-              {{ currentlyPlaying }}
-            </v-col>
-          </v-row>
-          <v-row dense>
-            <v-col>
-              Runtime:
-            </v-col>
-            <v-col>
-              {{ toHHMMSS(runtime) }}
-            </v-col>
-          </v-row>
-          <v-row dense>
-            <v-col>
-              Song:
-            </v-col>
-            <v-col>
-              {{ currentSong }}
-            </v-col>
-          </v-row>
-        </div>
-      </v-col>
-      <v-col md="4"></v-col>
-    </v-row>
-    <v-row>
-      <v-col md="4"></v-col>
-      <v-col md="4">
-        <VolumeControl/>
-      </v-col>
-      <v-col md="4"></v-col>
     </v-row>
   </v-container>
 </template>

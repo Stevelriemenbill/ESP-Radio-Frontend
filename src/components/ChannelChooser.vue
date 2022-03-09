@@ -1,20 +1,22 @@
 <template>
-  <v-card
-    flat
-    color="transparent"
-  >
-    <v-card-text>
-      <v-select
-        :items="stations"
-        item-text="name"
-        item-value="url"
-        label="Radio Stations"
-        return-object
-        single-line
-        @change="setStream"
-      >
-      </v-select>
-    </v-card-text>
+  <v-card height="100px">
+    <v-container>
+      <v-row>
+        <v-col>
+          <v-card v-for="station in stations" :key="station.stationuuid">
+            <v-card-title>
+              {{ station.name }}
+            </v-card-title>
+            <v-card-text>
+              <v-img :src="station.favicon"></v-img>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn icon @click="setStream(station)"><v-icon>mdi-play</v-icon></v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-card>
 </template>
 
@@ -27,18 +29,7 @@ export default {
   name: 'ChannelChooser',
   data() {
     return {
-      stations: [
-        {
-          name: 'Jazz Radio',
-          url: 'http://jazz.streamr.ru/jazz-64.mp3',
-          icon: ''
-        },
-        {
-          name: 'Antenne 1',
-          url: 'http://stream.antenne1.de/80er/livestream2.mp3',
-          icon: ''
-        }
-      ],
+      stations: [],
       runtimeCounter: null
     };
   },
@@ -69,8 +60,11 @@ export default {
         limit: 100,
         offset: 1 // 1 - is the second page
       });
-      console.log(stations);
+      this.stations = stations;
     }
+  },
+  created() {
+    this.getStations();
   }
 }
 </script>
