@@ -24,6 +24,25 @@
             <v-col>
               <v-icon color="white">mdi-skip-forward</v-icon>
             </v-col>
+            <v-col>
+              <div class="equalizer">
+                <div :class="eq1" class="eq-bar">
+                  <span></span>
+                </div>
+                <div :class="eq2" class="eq-bar">
+                  <span></span>
+                </div>
+                <div :class="eq3" class="eq-bar">
+                  <span></span>
+                </div>
+                <div :class="eq4" class="eq-bar">
+                  <span></span>
+                </div>
+                <div :class="eq5" class="eq-bar">
+                  <span></span>
+                </div>
+              </div>
+            </v-col>
           </v-row>
           <v-row dense>
             <v-col>
@@ -70,6 +89,13 @@ import VolumeControl from '../components/VolumeControl.vue'
 
 export default {
   name: 'RadioUI',
+  data: () => ({
+    eq1: 'eq-low',
+    eq2: 'eq-low',
+    eq3: 'eq-low',
+    eq4: 'eq-low',
+    eq5: 'eq-low'
+  }),
   components: {
     ChannelChooser,
     VolumeControl
@@ -88,7 +114,43 @@ export default {
       if (minutes < 10) {minutes = "0"+minutes;}
       if (seconds < 10) {seconds = "0"+seconds;}
       return hours+':'+minutes+':'+seconds;
-    }
+    },
+    startEqualizer() {
+      if (this.eqUpdater !== null) {
+        clearInterval(this.eqUpdater);
+      }
+      this.eqUpdater = setInterval(() => {
+        this.updateEqualizer();
+      }, 100);
+    },
+    updateEqualizer() {
+      this.eq1 = this.getRandomEqualizerState();
+      this.eq2 = this.getRandomEqualizerState();
+      this.eq3 = this.getRandomEqualizerState();
+      this.eq4 = this.getRandomEqualizerState();
+      this.eq5 = this.getRandomEqualizerState();
+    },
+    getRandomEqualizerState() {
+      var state = Math.floor(Math.random() * 5);
+      if(state == 0) {
+        return 'eq-low';
+      }
+      if(state == 1) {
+        return 'eq-low-mid';
+      }
+      if(state == 2) {
+        return 'eq-mid';
+      }
+      if(state == 3) {
+        return 'eq-mid-high';
+      }
+      if(state == 4) {
+        return 'eq-high';
+      }
+    },
+  },
+  created: function () {
+    this.startEqualizer();
   }
 }
 </script>
@@ -110,5 +172,29 @@ export default {
 }
 .lcd {
   background-color: blue;
+}
+.equalizer {
+  padding:2px;
+}
+.eq-bar {
+  display: inline-block;
+  background-color: white;
+  margin-left: 2px;
+  width: 3px;
+}
+.eq-low {
+  height: 3px;
+}
+.eq-low-mid {
+  height: 6px;
+}
+.eq-mid {
+  height: 9px;
+}
+.eq-mid-high {
+  height: 12px;
+}
+.eq-high {
+  height: 15px;
 }
 </style>
