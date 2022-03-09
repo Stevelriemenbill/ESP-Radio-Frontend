@@ -20,6 +20,8 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import { RadioBrowserApi } from 'radio-browser-api';
+import axios from 'axios';
 
 export default {
   name: 'ChannelChooser',
@@ -32,8 +34,8 @@ export default {
           icon: ''
         },
         {
-          name: 'Radio RST',
-          url: 'http://mms.hoerradar.de:8000/rst128k',
+          name: 'Antenne 1',
+          url: 'http://stream.antenne1.de/80er/livestream2.mp3',
           icon: ''
         }
       ],
@@ -46,6 +48,11 @@ export default {
   methods: {
     ...mapActions(["setCurrentlyPlayingStream", "setRuntime", "incrementRuntime"]),
     setStream(object) {
+      const params = new URLSearchParams();
+      params.append('station', object.url);
+      axios
+        .get('/service/radio', {params: params})
+        .then(response => (this.info = response));
       this.setCurrentlyPlayingStream(object.name);
       this.setRuntime(0);
       if (this.runtimeCounter !== null) {
@@ -54,6 +61,15 @@ export default {
       this.runtimeCounter = setInterval(() => {
         this.incrementRuntime();
       }, 1000);
+    },
+    async getStations() {
+      const api = new RadioBrowserApi('My Radio App');
+      const stations = await api.searchStations({
+        countryCode: 'US',
+        limit: 100,
+        offset: 1 // 1 - is the second page
+      });
+      console.log(stations);
     }
   }
 }
