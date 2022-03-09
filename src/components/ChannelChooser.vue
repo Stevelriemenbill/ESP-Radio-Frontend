@@ -1,23 +1,23 @@
 <template>
-  <v-card height="100px">
+<div class="stationListWrapper" style="overflow:auto">
+  <v-card height="90vh">
     <v-container>
-      <v-row>
-        <v-col>
-          <v-card v-for="station in stations" :key="station.stationuuid">
+      <v-layout row wrap>
+        <v-card v-for="station in stations" :key="station.stationuuid">
             <v-card-title>
               {{ station.name }}
             </v-card-title>
             <v-card-text>
-              <v-img :src="station.favicon"></v-img>
+              <v-img :src="station.favicon" contain max-height="150" max-width="250"></v-img>
             </v-card-text>
             <v-card-actions>
               <v-btn icon @click="setStream(station)"><v-icon>mdi-play</v-icon></v-btn>
             </v-card-actions>
           </v-card>
-        </v-col>
-      </v-row>
+      </v-layout>
     </v-container>
   </v-card>
+</div>
 </template>
 
 <script>
@@ -68,3 +68,6 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+</style>
