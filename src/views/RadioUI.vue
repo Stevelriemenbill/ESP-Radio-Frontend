@@ -5,9 +5,9 @@
         <v-card>
           <v-card-title>Controls</v-card-title>
           <v-container>
-            <v-row>
+            <v-row class="ma-5">
               <v-col class="lcd console">
-                <v-row>
+                <v-row dense>
                   <v-col>
                     <v-icon v-if="currentlyPlaying" color="white">mdi-stop</v-icon>
                     <v-icon v-else color="white">mdi-play</v-icon>
@@ -38,7 +38,7 @@
                     </div>
                   </v-col>
                 </v-row>
-                <v-row>
+                <v-row dense>
                   <v-col>
                     Radio Station:
                   </v-col>
@@ -46,7 +46,7 @@
                     {{ currentlyPlaying }}
                   </v-col>
                 </v-row>
-                <v-row>
+                <v-row dense>
                   <v-col>
                     Runtime:
                   </v-col>
@@ -54,7 +54,7 @@
                     {{ toHHMMSS(runtime) }}
                   </v-col>
                 </v-row>
-                <v-row>
+                <v-row dense>
                   <v-col>
                     Song:
                   </v-col>
@@ -64,7 +64,7 @@
                 </v-row>
               </v-col>
             </v-row>
-            <v-row>
+            <v-row no-gutters>
               <v-col>
                 <VolumeControl/>
               </v-col>
