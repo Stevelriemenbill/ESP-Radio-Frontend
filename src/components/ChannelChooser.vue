@@ -34,8 +34,8 @@ export default {
           icon: ''
         },
         {
-          name: 'Radio RST',
-          url: 'http://mms.hoerradar.de:8000/rst128k',
+          name: 'Antenne 1',
+          url: 'http://stream.antenne1.de/80er/livestream2.mp3',
           icon: ''
         }
       ],
