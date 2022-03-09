@@ -51,7 +51,7 @@ export default {
       const params = new URLSearchParams();
       params.append('station', object.url);
       axios
-        .get('https://api.coindesk.com/service/radio', {params: params})
+        .get('/service/radio', {params: params})
         .then(response => (this.info = response));
       this.setCurrentlyPlayingStream(object.name);
       this.setRuntime(0);
