@@ -2,19 +2,23 @@
   <v-app>
     <v-app-bar
       app
-      color="primary"
+      color="grey lighten-1"
       dark
     >
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-divider
+          class="mx-4"
+          vertical
+      >
+      </v-divider>
       <div class="d-flex align-center">
         <v-img
           alt="ESPRadio Logo"
           class="mr-2"
           contain
-          src="@/assets/radio_logo_2.jpg"
+          src="@/assets/radio_logo_2.png"
           width="80"
         />
-
-        <v-toolbar-title>Radio</v-toolbar-title>
       </div>
     </v-app-bar>
 
