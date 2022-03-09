@@ -1,28 +1,50 @@
 <template>
-<div class="stationListWrapper" style="overflow:auto">
-  <v-card height="90vh">
-    <v-container>
-      <v-layout row wrap>
-        <v-card v-for="station in stations" :key="station.stationuuid">
-            <v-card-title>
-              {{ station.name }}
-            </v-card-title>
-            <v-card-text>
-              <v-img :src="station.favicon" contain max-height="150" max-width="250"></v-img>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn icon @click="setStream(station)"><v-icon>mdi-play</v-icon></v-btn>
-            </v-card-actions>
-          </v-card>
-      </v-layout>
-    </v-container>
+  <v-card class="mx-auto">
+    <v-card-title>Stations</v-card-title>
+    <v-card-text>
+      <v-text-field
+        label="Search for a Station Name"
+        @input="getStations"
+      ></v-text-field>
+      <v-virtual-scroll
+        :bench="benched"
+        :items="stations"
+        height="500"
+        item-height="64"
+      >
+        <template v-slot:default="{ item }">
+          <v-list-item :key="item.stationuuid">
+            <v-list-item-avatar>
+              <v-img v-if="item.favicon" :src="item.favicon" contain max-height="40" max-width="100" class="mx-auto"></v-img>
+              <v-img v-else src="@/assets/no_image.png" contain max-height="40" max-width="100" class="mx-auto"></v-img>
+            </v-list-item-avatar>
+
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ item.name }}
+              </v-list-item-title>
+              <v-list-item-subtitle>{{ item.tags.join(', ') }}</v-list-item-subtitle>
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn icon @click="setStream(item)">
+                <v-icon>
+                  mdi-play
+                </v-icon>
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+
+          <v-divider></v-divider>
+        </template>
+      </v-virtual-scroll>
+    </v-card-text>
   </v-card>
-</div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { RadioBrowserApi } from 'radio-browser-api';
+import { RadioBrowserApi, StationSearchType } from 'radio-browser-api';
 import axios from 'axios';
 
 export default {
@@ -30,7 +52,8 @@ export default {
   data() {
     return {
       stations: [],
-      runtimeCounter: null
+      runtimeCounter: null,
+      benched: 0
     };
   },
   computed: {
@@ -53,13 +76,16 @@ export default {
         this.incrementRuntime();
       }, 1000);
     },
-    async getStations() {
+    async getStations(name) {
       const api = new RadioBrowserApi('My Radio App');
-      const stations = await api.searchStations({
-        countryCode: 'US',
-        limit: 100,
-        offset: 1 // 1 - is the second page
-      });
+      var stations;
+      if (name === undefined || name === '') {
+        stations = await api.searchStations({
+          countryCode: 'DE'
+        });
+      } else {
+        stations = await api.getStationsBy(StationSearchType.byName, name, {countryCode: 'DE'});
+      }
       this.stations = stations;
     }
   },
