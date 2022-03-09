@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import ChannelChooser from './ChannelChooser.vue'
-import VolumeControl from './VolumeControl.vue'
+import ChannelChooser from '../components/ChannelChooser.vue'
+import VolumeControl from '../components/VolumeControl.vue'
 
 export default {
   name: 'RadioUI',
