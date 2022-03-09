@@ -42,12 +42,6 @@ export default {
           icon: "mdi-home",
           route: "/",
           routename: "home"
-        },
-        {
-          name: "Testroute",
-          icon: "mdi-account",
-          route: "/test",
-          routename: "test"
         }
       ],
       group: null
