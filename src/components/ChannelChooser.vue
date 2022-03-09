@@ -11,7 +11,7 @@
         label="Radio Stations"
         return-object
         single-line
-        @change="setStream; getStations;"
+        @change="setStream"
       >
       </v-select>
     </v-card-text>
