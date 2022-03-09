@@ -3,7 +3,6 @@
     flat
     color="transparent"
   >
-    <v-subheader>Volume</v-subheader>
     <v-card-text>
     <v-slider
       v-model="media"
