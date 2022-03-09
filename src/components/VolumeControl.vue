@@ -7,8 +7,14 @@
     <v-card-text>
     <v-slider
       v-model="media"
-      prepend-icon="mdi-volume-high"
-    ></v-slider>
+      append-icon="mdi-volume-high"
+    >
+      <template v-slot:prepend>
+        <v-icon :color="muteColor" @click="muteSound">
+          mdi-volume-mute
+        </v-icon>
+      </template>
+    </v-slider>
     </v-card-text>
   </v-card>
 </template>
@@ -18,8 +24,14 @@ export default {
   name: 'VolumeControl',
   data() {
     return {
-      media: 0
+      media: 0,
+      muteColor: 'grey'
     };
+  },
+  methods: {
+    muteSound(value) {
+      console.log(value);
+    }
   }
 }
 </script>

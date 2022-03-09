@@ -2,6 +2,7 @@
   <v-card
     flat
     color="transparent"
+    class="pa-0"
   >
     <v-subheader>Stations</v-subheader>
     <v-card-text>
@@ -12,6 +13,8 @@
         label="Radio Stations"
         return-object
         single-line
+        class="pa-0"
+        @change="setStream"
       >
       </v-select>
     </v-card-text>
@@ -19,6 +22,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: 'ChannelChooser',
   data() {
@@ -36,6 +41,12 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    ...mapActions(["setCurrentlyPlayingStream"]),
+    setStream(object) {
+      this.setCurrentlyPlayingStream(object.name);
+    }
   }
 }
 </script>
