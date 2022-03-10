@@ -152,7 +152,7 @@ export default {
     }
     this.getSongInterval = setInterval(() => {
       this.getSong();
-    }, 1000);
+    }, 3000);
   }
 }
 </script>
