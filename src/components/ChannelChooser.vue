@@ -79,7 +79,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import { RadioBrowserApi } from 'radio-browser-api';
-import axios from 'axios';
+import EspApi from "@/services/esp_api";
 
 export default {
   name: 'ChannelChooser',
@@ -90,7 +90,6 @@ export default {
       runtimeCounter: null,
       benched: 0,
       allTags: [],
-      info: {},
       filterTags: [],
       tagFilterVisible: false
     };
@@ -101,11 +100,10 @@ export default {
   methods: {
     ...mapActions(["setCurrentStation", "setRuntime", "incrementRuntime"]),
     setStream(object) {
-      const params = new URLSearchParams();
-      params.append('station', object.url);
-      axios
-        .get('/service/radio', {params: params})
-        .then(response => (this.info = response));
+      const espApi = new EspApi();
+      espApi.playStation(object).then(result => {
+        console.log(result);
+      })
       this.setCurrentStation(object);
       this.setRuntime(0);
       if (this.runtimeCounter !== null) {
@@ -116,8 +114,10 @@ export default {
       }, 1000);
     },
     stop() {
-      axios
-        .put('/actions/stop')
+      const espApi = new EspApi();
+      espApi.stopPlaying().then(result => {
+        console.log(result);
+      })
       this.setCurrentStation({});
       this.setRuntime(0);
       if (this.runtimeCounter !== null) {

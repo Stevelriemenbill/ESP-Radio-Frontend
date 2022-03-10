@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { mapActions } from 'vuex';
+import EspApi from "@/services/esp_api";
 
 export default {
   name: 'VolumeControl',
@@ -45,18 +45,15 @@ export default {
       this.setVolumeAPI(value);
     },
     setVolumeAPI(value) {
-      const params = "vollevel=" + value;
-      axios
-        .put('/actions/setvolume', params)
-        .then(response => (this.info = response));
+      const espApi = new EspApi();
+      espApi.setVolume(value).then(response => (console.log(response)));
     },
     getVolume() {
-      axios
-        .get('/radio/volume')
-        .then(response => {
-          this.volume = response;
-          this.setVolume(response);
-        });
+      const espApi = new EspApi();
+      espApi.getVolume().then(response => {
+        this.volume = response;
+        this.setVolume(response);
+      });
     }
   },
   created() {

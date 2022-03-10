@@ -63,7 +63,7 @@ import { mapGetters, mapState, mapActions } from 'vuex';
 import ChannelChooser from '../components/ChannelChooser.vue';
 import VolumeControl from '../components/VolumeControl.vue';
 import store from '../store/index';
-import axios from 'axios';
+import EspApi from "@/services/esp_api";
 
 export default {
   name: 'RadioUI',
@@ -139,11 +139,10 @@ export default {
       }
     },
     getSong() {
-      axios
-        .get('/radio/song')
-        .then(response => {
-          this.setCurrentSong(response.song);
-        });
+      const espApi = new EspApi();
+      espApi.getSong().then(response => {
+        this.setCurrentSong(response.song);
+      });
     }
   },
   created: function () {
