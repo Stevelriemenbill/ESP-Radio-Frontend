@@ -10,7 +10,7 @@
         :bench="benched"
         :items="filteredStations"
         height="500"
-        item-height="64"
+        item-height="70"
       >
         <template v-slot:default="{ item }">
           <v-list-item :key="item.stationuuid">
@@ -22,6 +22,7 @@
             <v-list-item-content>
               <v-list-item-title>
                 {{ item.name }}
+                <v-chip><v-icon color="red">mdi-heart</v-icon>{{ item.votes }}</v-chip>
               </v-list-item-title>
               <v-list-item-subtitle>{{ item.tags.join(', ') }}</v-list-item-subtitle>
             </v-list-item-content>
@@ -87,11 +88,6 @@ export default {
     },
     filterStations(name) {
       var stations = [];
-      // for (var i = 0; i < this.allStations.length; i++) {
-      //   if (this.allStations[i].name.match(new RegExp(name)) ) {
-      //     stations.push(this.allStations[i]);
-      //   }
-      // }
       this.allStations.forEach(function (station) {
         if (station.name.match(new RegExp(name, 'i')) ) {
           stations.push(station);
