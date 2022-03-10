@@ -4,7 +4,8 @@ export default class EspApi {
 
   async playStation(stationObject) {
     const params = new URLSearchParams();
-    params.append('station', stationObject.url);
+    const url = stationObject.url.replace(/^https/i, "http");
+    params.append('url', url);
     return await axios.get('/actions/play', {params: params});
   }
 
