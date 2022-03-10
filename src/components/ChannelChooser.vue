@@ -1,6 +1,31 @@
 <template>
   <v-card class="mx-auto">
-    <v-card-title>Stations</v-card-title>
+    <v-card-title>Stations
+      <v-spacer />
+      <v-menu
+        bottom
+        right
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-filter-variant</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="(tag, i) in allTags"
+            :key="i"
+          >
+            <v-list-item-title>{{ tag }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      
+    </v-card-title>
     <v-card-text>
       <v-text-field
         label="Search for a Station Name"
@@ -55,7 +80,8 @@ export default {
       allStations: [],
       filteredStations: [],
       runtimeCounter: null,
-      benched: 0
+      benched: 0,
+      allTags: []
     };
   },
   computed: {
@@ -85,11 +111,18 @@ export default {
       });
       stations.sort((a, b) => parseFloat(b.votes) - parseFloat(a.votes));
       var mp3Stations = [];
+      var uniqueTags = [];
       stations.forEach(function (station) {
         if (station.codec === "MP3") {
+          station.tags.forEach(function (tag) {
+            if (!uniqueTags.includes(tag)) {
+              uniqueTags.push(tag);
+            }
+          });
           mp3Stations.push(station);
         }
       });
+      this.allTags = uniqueTags;
       this.allStations = mp3Stations;
       this.filteredStations = mp3Stations;
     },
@@ -111,4 +144,9 @@ export default {
 </script>
 
 <style scoped>
+.v-list{
+  height:300px;
+  width: 200px;
+  overflow-y:auto;
+}
 </style>
