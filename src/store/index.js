@@ -18,13 +18,13 @@ export default new Vuex.Store({
       state.showNavDrawer = boolValue;
     },
     updateCurrentStation(state, stationObject) {
-      state.currentlyPlaying = stationObject;
+      state.currentStation = stationObject;
     },
     updateRuntime(state, runtime) {
       state.runtime = runtime;
     },
     updateCurrentSong(state, songName) {
-      state.currentlyPlayingSong = songName;
+      state.currentSong = songName;
     },
     updateVolume(state, volumeLevel) {
       state.volume = volumeLevel;
@@ -52,7 +52,7 @@ export default new Vuex.Store({
   },
   getters: {
     isPlaying(state) {
-      return state.currentlyPlaying != '';
+      return Object.keys(state.currentStation).length !== 0;
     }
   }
 });
