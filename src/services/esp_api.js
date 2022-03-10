@@ -5,7 +5,7 @@ export default class EspApi {
   async playStation(stationObject) {
     const params = new URLSearchParams();
     params.append('station', stationObject.url);
-    return await axios.get('/actions/station', {params: params});
+    return await axios.get('/actions/play', {params: params});
   }
 
   async stopPlaying() {
