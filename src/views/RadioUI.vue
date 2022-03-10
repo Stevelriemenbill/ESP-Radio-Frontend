@@ -33,7 +33,7 @@
                 </v-row>
                 <v-row dense>
                   <v-col class="station">
-                    {{ currentlyPlaying }}
+                    {{ currentStation.name }}
                   </v-col>
                 </v-row>
                 <v-row dense>
@@ -78,7 +78,7 @@ export default {
     VolumeControl
   },
   computed: {
-    ...mapState(["currentlyPlaying", "currentSong", "runtime"]),
+    ...mapState(["currentStation", "currentSong", "runtime"]),
     ...mapGetters(["isPlaying"])
   },
   methods: {
