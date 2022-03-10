@@ -5,8 +5,8 @@
   >
     <v-card-text>
     <v-slider
-      v-model="media"
       append-icon="mdi-volume-high"
+      @change="changeVolume($event)"
     >
       <template v-slot:prepend>
         <v-icon :color="muteColor" @click="muteSound">
@@ -19,17 +19,35 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'VolumeControl',
   data() {
     return {
-      media: 0,
-      muteColor: 'grey'
+      volume: 0,
+      muteColor: 'grey',
+      muted: false,
+      info: {}
     };
   },
   methods: {
-    muteSound(value) {
-      console.log(value);
+    muteSound() {
+      if (this.muted) {
+        this.setVolume(this.volume);
+      } else {
+        this.setVolume(0);
+      }
+      this.muted = !this.muted;
+    },
+    changeVolume(value) {
+      this.setVolume(value);
+    },
+    setVolume(value) {
+      const params = "vollevel=" + value;
+      axios
+        .put('/actions/setvolume', params)
+        .then(response => (this.info = response));
     }
   }
 }

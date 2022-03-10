@@ -7,31 +7,35 @@ export default new Vuex.Store({
   state () {
     return {
       showNavDrawer: false,
-      currentlyPlaying: '',
-      currentlyPlayingSong: '',
-      runtime: 0
+      currentStation: {},
+      currentSong: '',
+      runtime: 0,
+      volume: 0
     };
   },
   mutations: {
     updateShowNavDrawer(state, boolValue) {
       state.showNavDrawer = boolValue;
     },
-    updateCurrentlyPlaying(state, url) {
-      state.currentlyPlaying = url;
+    updateCurrentStation(state, stationObject) {
+      state.currentlyPlaying = stationObject;
     },
     updateRuntime(state, runtime) {
       state.runtime = runtime;
     },
     updateCurrentSong(state, songName) {
       state.currentlyPlayingSong = songName;
+    },
+    updateVolume(state, volumeLevel) {
+      state.volume = volumeLevel;
     }
   },
   actions: {
     toggleNavDrawer(context) {
       context.commit('updateShowNavDrawer', !context.state.showNavDrawer);
     },
-    setCurrentlyPlayingStream(context, url) {
-      context.commit('updateCurrentlyPlaying', url);
+    setCurrentStation(context, stationObject) {
+      context.commit('updateCurrentStation', stationObject);
     },
     setRuntime(context, runtime) {
       context.commit('updateRuntime', runtime);
@@ -41,6 +45,9 @@ export default new Vuex.Store({
     },
     incrementRuntime(context) {
       context.commit('updateRuntime', context.state.runtime + 1);
+    },
+    setVolume(context, volumeLevel) {
+      context.commit('updateVolume', volumeLevel);
     }
   }
 });

@@ -38,7 +38,7 @@
         item-height="70"
       >
         <template v-slot:default="{ item }">
-          <v-list-item :key="item.stationuuid" v-bind:class="{ active: item.name == currentlyPlaying }">
+          <v-list-item :key="item.stationuuid" v-bind:class="{ active: item.name == currentStation.name }">
             <v-list-item-avatar>
               <v-img v-if="item.favicon" :src="item.favicon" contain max-height="40" max-width="100" class="mx-auto"></v-img>
               <v-img v-else src="@/assets/no_image.png" contain max-height="40" max-width="100" class="mx-auto"></v-img>
@@ -53,7 +53,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn v-if="item.name == currentlyPlaying" icon @click="stop">
+              <v-btn v-if="item.name == currentStation.name" icon @click="stop">
                 <v-icon>
                   mdi-stop
                 </v-icon>
@@ -86,21 +86,22 @@ export default {
       filteredStations: [],
       runtimeCounter: null,
       benched: 0,
-      allTags: []
+      allTags: [],
+      info: {}
     };
   },
   computed: {
-    ...mapState(["runtime", "currentlyPlaying"])
+    ...mapState(["runtime", "currentStation"])
   },
   methods: {
-    ...mapActions(["setCurrentlyPlayingStream", "setRuntime", "incrementRuntime"]),
+    ...mapActions(["setCurrentStation", "setRuntime", "incrementRuntime"]),
     setStream(object) {
       const params = new URLSearchParams();
       params.append('station', object.url);
       axios
         .get('/service/radio', {params: params})
         .then(response => (this.info = response));
-      this.setCurrentlyPlayingStream(object.name);
+      this.setCurrentStation(object);
       this.setRuntime(0);
       if (this.runtimeCounter !== null) {
         clearInterval(this.runtimeCounter);
@@ -112,7 +113,7 @@ export default {
     stop() {
       axios
         .put('/actions/stop')
-      this.setCurrentlyPlayingStream('');
+      this.setCurrentStation({});
       this.setRuntime(0);
       if (this.runtimeCounter !== null) {
         clearInterval(this.runtimeCounter);

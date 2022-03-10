@@ -9,7 +9,7 @@
               <v-col class="lcd console">
                 <v-row dense>
                   <v-col>
-                    <v-icon v-if="currentlyPlaying" color="white">mdi-stop</v-icon>
+                    <v-icon v-if="Object.keys(currentStation).length !== 0" color="white">mdi-stop</v-icon>
                     <v-icon v-else color="white">mdi-play</v-icon>
                   </v-col>
                   <v-col>
@@ -47,7 +47,7 @@
                     Radio Station:
                   </v-col>
                   <v-col>
-                    {{ currentlyPlaying }}
+                    {{ currentStation.name }}
                   </v-col>
                 </v-row>
                 <v-row dense>
@@ -102,7 +102,7 @@ export default {
     VolumeControl
   },
   computed: {
-    ...mapState(["currentlyPlaying", "currentSong", "runtime"])
+    ...mapState(["currentStation", "currentSong", "runtime"])
   },
   methods: {
     toHHMMSS(string) {
