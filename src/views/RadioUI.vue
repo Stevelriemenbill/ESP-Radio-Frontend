@@ -9,20 +9,6 @@
               <v-col class="lcd console">
                 <v-row dense>
                   <v-col>
-                    <v-icon v-if="currentlyPlaying" color="white">mdi-stop</v-icon>
-                    <v-icon v-else color="white">mdi-play</v-icon>
-                  </v-col>
-                  <v-col>
-                  </v-col>
-                  <v-col>
-                    <v-icon color="white">mdi-skip-backward</v-icon>
-                  </v-col>
-                  <v-col>
-                    <v-icon color="white">mdi-skip-forward</v-icon>
-                  </v-col>
-                  <v-col>
-                  </v-col>
-                  <v-col>
                     <div class="equalizer">
                       <div :class="eq1" class="eq-bar">
                         <span></span>
@@ -41,28 +27,17 @@
                       </div>
                     </div>
                   </v-col>
-                </v-row>
-                <v-row dense>
-                  <v-col>
-                    Radio Station:
-                  </v-col>
-                  <v-col>
-                    {{ currentlyPlaying }}
-                  </v-col>
-                </v-row>
-                <v-row dense>
-                  <v-col>
-                    Runtime:
-                  </v-col>
-                  <v-col>
+                  <v-col class="runtime">
                     {{ toHHMMSS(runtime) }}
                   </v-col>
                 </v-row>
                 <v-row dense>
-                  <v-col>
-                    Song:
+                  <v-col class="station">
+                    {{ currentlyPlaying }}
                   </v-col>
-                  <v-col>
+                </v-row>
+                <v-row dense>
+                  <v-col class="song">
                     {{ currentSong }}
                   </v-col>
                 </v-row>
@@ -84,9 +59,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import ChannelChooser from '../components/ChannelChooser.vue'
 import VolumeControl from '../components/VolumeControl.vue'
+import store from '../store/index'
 
 export default {
   name: 'RadioUI',
@@ -102,7 +78,8 @@ export default {
     VolumeControl
   },
   computed: {
-    ...mapState(["currentlyPlaying", "currentSong", "runtime"])
+    ...mapState(["currentlyPlaying", "currentSong", "runtime"]),
+    ...mapGetters(["isPlaying"])
   },
   methods: {
     toHHMMSS(string) {
@@ -125,11 +102,19 @@ export default {
       }, 100);
     },
     updateEqualizer() {
-      this.eq1 = this.getRandomEqualizerState();
-      this.eq2 = this.getRandomEqualizerState();
-      this.eq3 = this.getRandomEqualizerState();
-      this.eq4 = this.getRandomEqualizerState();
-      this.eq5 = this.getRandomEqualizerState();
+      if(store.getters.isPlaying) {
+        this.eq1 = this.getRandomEqualizerState();
+        this.eq2 = this.getRandomEqualizerState();
+        this.eq3 = this.getRandomEqualizerState();
+        this.eq4 = this.getRandomEqualizerState();
+        this.eq5 = this.getRandomEqualizerState();
+      } else {
+        this.eq1 = 'eq-low';
+        this.eq2 = 'eq-low';
+        this.eq3 = 'eq-low';
+        this.eq4 = 'eq-low';
+        this.eq5 = 'eq-low';
+      }
     },
     getRandomEqualizerState() {
       var state = Math.floor(Math.random() * 5);
@@ -168,34 +153,43 @@ export default {
 .console {
   font-family: 'Courier New', Courier, monospace;
   color: white;
-  font-size: 16px;
+  font-size: 25px;
   text-align: left;
 }
 .lcd {
   background-color: blue;
 }
+.runtime {
+  font-size: 30px;
+}
+.station {
+  font-size: 20px;
+}
+.song {
+  font-size: 15px;
+}
 .equalizer {
-  padding:2px;
+  padding: 2px;
 }
 .eq-bar {
   display: inline-block;
   background-color: white;
   margin-left: 2px;
-  width: 3px;
+  width: 10px;
 }
 .eq-low {
-  height: 3px;
+  height: 1px;
 }
 .eq-low-mid {
   height: 6px;
 }
 .eq-mid {
-  height: 9px;
+  height: 11px;
 }
 .eq-mid-high {
-  height: 12px;
+  height: 16px;
 }
 .eq-high {
-  height: 15px;
+  height: 21px;
 }
 </style>

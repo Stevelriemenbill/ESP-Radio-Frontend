@@ -42,5 +42,10 @@ export default new Vuex.Store({
     incrementRuntime(context) {
       context.commit('updateRuntime', context.state.runtime + 1);
     }
+  },
+  getters: {
+    isPlaying(state) {
+      return state.currentlyPlaying != '';
+    }
   }
 });

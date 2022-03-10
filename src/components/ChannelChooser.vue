@@ -2,30 +2,33 @@
   <v-card class="mx-auto">
     <v-card-title>Stations
       <v-spacer />
-      <v-menu
-        bottom
-        right
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            v-on="on"
-          >
-            <v-icon>mdi-filter-variant</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item
-            v-for="(tag, i) in allTags"
-            :key="i"
-          >
-            <v-list-item-title>{{ tag }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-      
+        <v-btn
+          icon
+          @click="tagFilterVisible = !tagFilterVisible"
+        >
+          <v-icon>mdi-filter-variant</v-icon>
+        </v-btn>
     </v-card-title>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-col cols="auto">
+        <v-autocomplete
+          v-model.trim.lazy="filterTags"
+          :items="allTags"
+          @change="filterStations('')"
+          outlined
+          dense
+          chips
+          small-chips
+          label="Tags"
+          multiple
+          v-if="tagFilterVisible"
+          :justify="end"
+          cols="1"
+          >
+        </v-autocomplete>
+      </v-col>
+    </v-card-actions>
     <v-card-text>
       <v-text-field
         label="Search for a Station Name"
@@ -86,7 +89,9 @@ export default {
       filteredStations: [],
       runtimeCounter: null,
       benched: 0,
-      allTags: []
+      allTags: [],
+      filterTags: [],
+      tagFilterVisible: false
     };
   },
   computed: {
@@ -142,9 +147,21 @@ export default {
     },
     filterStations(name) {
       var stations = [];
+      var filters = this.filterTags;
       this.allStations.forEach(function (station) {
-        if (station.name.match(new RegExp(name, 'i')) ) {
-          stations.push(station);
+        var hasTag = false;
+        station.tags.every(function (tag) {
+          if (filters.includes(tag)) {
+            hasTag = true;
+            return false;
+          }
+        });
+        if(!hasTag) {
+          return;
+        } else {
+          if (station.name.match(new RegExp(name, 'i')) ) {
+            stations.push(station);
+          }
         }
       });
       stations.sort((a, b) => parseFloat(b.votes) - parseFloat(a.votes));
