@@ -13,10 +13,14 @@
                     <v-icon v-else color="white">mdi-play</v-icon>
                   </v-col>
                   <v-col>
+                  </v-col>
+                  <v-col>
                     <v-icon color="white">mdi-skip-backward</v-icon>
                   </v-col>
                   <v-col>
                     <v-icon color="white">mdi-skip-forward</v-icon>
+                  </v-col>
+                  <v-col>
                   </v-col>
                   <v-col>
                     <div class="equalizer">
