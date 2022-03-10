@@ -20,6 +20,7 @@
 
 <script>
 import axios from 'axios';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'VolumeControl',
@@ -27,28 +28,39 @@ export default {
     return {
       volume: 0,
       muteColor: 'grey',
-      muted: false,
-      info: {}
+      muted: false
     };
   },
   methods: {
+    ...mapActions(["setVolume"]),
     muteSound() {
       if (this.muted) {
         this.setVolume(this.volume);
       } else {
-        this.setVolume(0);
+        this.setVolumeAPI(0);
       }
       this.muted = !this.muted;
     },
     changeVolume(value) {
-      this.setVolume(value);
+      this.setVolumeAPI(value);
     },
-    setVolume(value) {
+    setVolumeAPI(value) {
       const params = "vollevel=" + value;
       axios
         .put('/actions/setvolume', params)
         .then(response => (this.info = response));
+    },
+    getVolume() {
+      axios
+        .get('/radio/volume')
+        .then(response => {
+          this.volume = response;
+          this.setVolume(response);
+        });
     }
+  },
+  created() {
+    this.getVolume();
   }
 }
 </script>

@@ -59,10 +59,11 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
-import ChannelChooser from '../components/ChannelChooser.vue'
-import VolumeControl from '../components/VolumeControl.vue'
-import store from '../store/index'
+import { mapGetters, mapState, mapActions } from 'vuex';
+import ChannelChooser from '../components/ChannelChooser.vue';
+import VolumeControl from '../components/VolumeControl.vue';
+import store from '../store/index';
+import axios from 'axios';
 
 export default {
   name: 'RadioUI',
@@ -71,7 +72,9 @@ export default {
     eq2: 'eq-low',
     eq3: 'eq-low',
     eq4: 'eq-low',
-    eq5: 'eq-low'
+    eq5: 'eq-low',
+    info: {},
+    getSongInterval: null
   }),
   components: {
     ChannelChooser,
@@ -82,6 +85,7 @@ export default {
     ...mapGetters(["isPlaying"])
   },
   methods: {
+    ...mapActions(["setCurrentSong"]),
     toHHMMSS(string) {
       var sec_num = string; // don't forget the second param
       var hours   = Math.floor(sec_num / 3600);
@@ -134,9 +138,22 @@ export default {
         return 'eq-high';
       }
     },
+    getSong() {
+      axios
+        .get('/radio/song')
+        .then(response => {
+          this.setCurrentSong(response.song);
+        });
+    }
   },
   created: function () {
     this.startEqualizer();
+    if (this.getSongInterval !== null) {
+      clearInterval(this.getSongInterval);
+    }
+    this.getSongInterval = setInterval(() => {
+      this.getSong();
+    }, 1000);
   }
 }
 </script>
