@@ -4,11 +4,11 @@
     <v-card-text>
       <v-text-field
         label="Search for a Station Name"
-        @input="getStations"
+        @input="filterStations"
       ></v-text-field>
       <v-virtual-scroll
         :bench="benched"
-        :items="stations"
+        :items="filteredStations"
         height="500"
         item-height="64"
       >
@@ -44,14 +44,15 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { RadioBrowserApi, StationSearchType } from 'radio-browser-api';
+import { RadioBrowserApi } from 'radio-browser-api';
 import axios from 'axios';
 
 export default {
   name: 'ChannelChooser',
   data() {
     return {
-      stations: [],
+      allStations: [],
+      filteredStations: [],
       runtimeCounter: null,
       benched: 0
     };
@@ -76,17 +77,27 @@ export default {
         this.incrementRuntime();
       }, 1000);
     },
-    async getStations(name) {
+    async getStations() {
       const api = new RadioBrowserApi('My Radio App');
-      var stations;
-      if (name === undefined || name === '') {
-        stations = await api.searchStations({
+      const stations = await api.searchStations({
           countryCode: 'DE'
-        });
-      } else {
-        stations = await api.getStationsBy(StationSearchType.byName, name, {countryCode: 'DE'});
-      }
-      this.stations = stations;
+      });
+      this.allStations = stations;
+      this.filteredStations = stations;
+    },
+    filterStations(name) {
+      var stations = [];
+      // for (var i = 0; i < this.allStations.length; i++) {
+      //   if (this.allStations[i].name.match(new RegExp(name)) ) {
+      //     stations.push(this.allStations[i]);
+      //   }
+      // }
+      this.allStations.forEach(function (station) {
+        if (station.name.match(new RegExp(name, 'i')) ) {
+          stations.push(station);
+        }
+      });
+      this.filteredStations = stations;
     }
   },
   created() {
