@@ -13,7 +13,7 @@
         item-height="70"
       >
         <template v-slot:default="{ item }">
-          <v-list-item :key="item.stationuuid">
+          <v-list-item :key="item.stationuuid" v-bind:class="{ active: item.name == currentlyPlaying }">
             <v-list-item-avatar>
               <v-img v-if="item.favicon" :src="item.favicon" contain max-height="40" max-width="100" class="mx-auto"></v-img>
               <v-img v-else src="@/assets/no_image.png" contain max-height="40" max-width="100" class="mx-auto"></v-img>
@@ -28,7 +28,12 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn icon @click="setStream(item)">
+              <v-btn v-if="item.name == currentlyPlaying" icon @click="stop">
+                <v-icon>
+                  mdi-stop
+                </v-icon>
+              </v-btn>
+              <v-btn v-else icon @click="setStream(item)">
                 <v-icon>
                   mdi-play
                 </v-icon>
@@ -59,7 +64,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["runtime"])
+    ...mapState(["runtime", "currentlyPlaying"])
   },
   methods: {
     ...mapActions(["setCurrentlyPlayingStream", "setRuntime", "incrementRuntime"]),
@@ -77,6 +82,15 @@ export default {
       this.runtimeCounter = setInterval(() => {
         this.incrementRuntime();
       }, 1000);
+    },
+    stop() {
+      axios
+        .put('/actions/stop', {params: params})
+      this.setCurrentlyPlayingStream('');
+      this.setRuntime(0);
+      if (this.runtimeCounter !== null) {
+        clearInterval(this.runtimeCounter);
+      }
     },
     async getStations() {
       const api = new RadioBrowserApi('My Radio App');
@@ -111,4 +125,7 @@ export default {
 </script>
 
 <style scoped>
+.active {
+  background-color: turquoise;
+}
 </style>
