@@ -83,8 +83,15 @@ export default {
       const stations = await api.searchStations({
           countryCode: 'DE'
       });
-      this.allStations = stations;
-      this.filteredStations = stations;
+      stations.sort((a, b) => parseFloat(b.votes) - parseFloat(a.votes));
+      var mp3Stations = [];
+      stations.forEach(function (station) {
+        if (station.codec === "MP3") {
+          mp3Stations.push(station);
+        }
+      });
+      this.allStations = mp3Stations;
+      this.filteredStations = mp3Stations;
     },
     filterStations(name) {
       var stations = [];
@@ -93,6 +100,7 @@ export default {
           stations.push(station);
         }
       });
+      stations.sort((a, b) => parseFloat(b.votes) - parseFloat(a.votes));
       this.filteredStations = stations;
     }
   },
