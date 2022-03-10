@@ -158,6 +158,7 @@ export default {
 }
 .lcd {
   background-color: blue;
+  border-radius: 5px;
 }
 .runtime {
   font-size: 30px;
