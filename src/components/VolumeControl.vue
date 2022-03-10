@@ -51,8 +51,8 @@ export default {
     getVolume() {
       const espApi = new EspApi();
       espApi.getVolume().then(response => {
-        this.volume = response;
-        this.setVolume(response);
+        this.volume = response.data.volume;
+        this.setVolume(response.data.volume);
       });
     }
   },

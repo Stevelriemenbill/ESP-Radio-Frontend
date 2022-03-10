@@ -141,8 +141,7 @@ export default {
     getSong() {
       const espApi = new EspApi();
       espApi.getSong().then(response => {
-        console.log(response);
-        this.setCurrentSong(response.song);
+        this.setCurrentSong(response.data.song);
       });
     }
   },
