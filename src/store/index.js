@@ -49,5 +49,10 @@ export default new Vuex.Store({
     setVolume(context, volumeLevel) {
       context.commit('updateVolume', volumeLevel);
     }
+  },
+  getters: {
+    isPlaying(state) {
+      return state.currentlyPlaying != '';
+    }
   }
 });
