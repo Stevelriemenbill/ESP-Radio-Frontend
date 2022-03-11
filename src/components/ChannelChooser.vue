@@ -228,6 +228,7 @@ export default {
       const espApi = new EspApi();
       espApi.getStation().then(response => {
         var station = this.allStations.find(x => x.url === response.data.station);
+        console.log(station);
         if (station !== null) {
           this.setCurrentStation(station);
         }
