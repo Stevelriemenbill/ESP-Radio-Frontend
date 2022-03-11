@@ -12,6 +12,10 @@ export default class EspApi {
     return await axios.put('/actions/stop');
   }
 
+  async getStation() {
+    return await axios.get('/radio/station');
+  }
+
   async getSong() {
     return await axios.get('/radio/song');
   }
@@ -24,7 +28,5 @@ export default class EspApi {
   async getVolume() {
     return await axios.get('/radio/volume');
   }
-
-  
 
 }

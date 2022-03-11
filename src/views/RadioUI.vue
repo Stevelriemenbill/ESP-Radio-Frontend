@@ -33,7 +33,7 @@
                 </v-row>
                 <v-row dense>
                   <v-col class="station">
-                    {{ currentStation.name }}
+                    {{ typeof currentStation === 'string' ? currentStation : currentStation.name }}
                   </v-col>
                 </v-row>
                 <v-row dense>
@@ -85,7 +85,7 @@ export default {
     ...mapGetters(["isPlaying"])
   },
   methods: {
-    ...mapActions(["setCurrentSong"]),
+    ...mapActions(["setCurrentSong", "setCurrentStation"]),
     toHHMMSS(string) {
       var sec_num = string; // don't forget the second param
       var hours   = Math.floor(sec_num / 3600);
@@ -143,10 +143,17 @@ export default {
       espApi.getSong().then(response => {
         this.setCurrentSong(response.data.song);
       });
+    },
+    getStation() {
+      const espApi = new EspApi();
+      espApi.getStation().then(response => {
+        this.setCurrentStation(response.data.station);
+      });
     }
   },
   created: function () {
     this.startEqualizer();
+    this.getStation();
     if (this.getSongInterval !== null) {
       clearInterval(this.getSongInterval);
     }
