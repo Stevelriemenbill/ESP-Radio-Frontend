@@ -121,6 +121,7 @@ export default {
       })
       this.setCurrentStation({});
       this.setRuntime(0);
+      this.setCurrentSong('');
       if (this.runtimeCounter !== null) {
         clearInterval(this.runtimeCounter);
       }
