@@ -98,7 +98,7 @@ export default {
     ...mapState(["runtime", "currentStation"])
   },
   methods: {
-    ...mapActions(["setCurrentStation", "setRuntime", "incrementRuntime"]),
+    ...mapActions(["setCurrentStation", "setRuntime", "incrementRuntime", "setCurrentSong"]),
     setStream(object) {
       const espApi = new EspApi();
       espApi.playStation(object).then(result => {
@@ -106,6 +106,7 @@ export default {
       })
       this.setCurrentStation(object);
       this.setRuntime(0);
+      this.setCurrentSong('');
       if (this.runtimeCounter !== null) {
         clearInterval(this.runtimeCounter);
       }
