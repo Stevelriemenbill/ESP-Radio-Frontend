@@ -4,12 +4,13 @@ export default class EspApi {
 
   async playStation(stationObject) {
     const url = stationObject.url.replace(/^https/i, "http");
-    const params = 'url=' + url;
-    return await axios.put('/actions/play', params);
+    const params = new URLSearchParams([['url', url]]);
+    // const params = 'url=' + url;
+    return await axios.get('/actions/play', {params: params});
   }
 
   async stopPlaying() {
-    return await axios.put('/actions/stop');
+    return await axios.get('/actions/stop');
   }
 
   async getStation() {
@@ -21,8 +22,9 @@ export default class EspApi {
   }
 
   async setVolume(value) {
-    const params = "vollevel=" + value;
-    return await axios.put('/actions/setvolume', params);
+    const params = new URLSearchParams([['vollevel', value]]);
+    // const params = "vollevel=" + value;
+    return await axios.get('/actions/setvolume', {params: params});
   }
 
   async getVolume() {
