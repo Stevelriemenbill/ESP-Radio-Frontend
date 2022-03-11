@@ -227,6 +227,10 @@ export default {
     getStation() {
       const espApi = new EspApi();
       espApi.getStation().then(response => {
+        var station = this.allStations.find(x => x.url === this.response.data.station);
+        if (station !== null) {
+          this.setCurrentStation(station);
+        }
         this.setCurrentStation(response.data.station);
       });
     }
@@ -239,10 +243,6 @@ export default {
     this.getStationInterval = setInterval(() => {
       if (this.allStations.length > 0) {
         this.getStation();
-        var station = this.allStations.find(x => x.url === this.currentStation);
-        if (station !== null) {
-          this.currentStation = station;
-        }
       }
     }, 3000);
   }
