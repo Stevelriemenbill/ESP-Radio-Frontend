@@ -169,6 +169,8 @@ export default {
               uniqueTags.push(tag);
             }
           });
+          var urlReplaced = station.url.replace(/^https/i, "http");
+          station.url = urlReplaced;
           mp3Stations.push(station);
         }
       });
@@ -221,10 +223,28 @@ export default {
     resetFilter() {
       this.filterTags = [];
       this.filterStations();
+    },
+    getStation() {
+      const espApi = new EspApi();
+      espApi.getStation().then(response => {
+        this.setCurrentStation(response.data.station);
+      });
     }
   },
   created() {
     this.getStations();
+    if (this.getStationInterval !== null) {
+      clearInterval(this.getStationInterval);
+    }
+    this.getStationInterval = setInterval(() => {
+      if (this.allStations.length > 0) {
+        this.getStation();
+        var station = this.allStations.find(x => x.url === this.currentStation);
+        if (station !== null) {
+          this.currentStation = station;
+        }
+      }
+    }, 3000);
   }
 }
 </script>

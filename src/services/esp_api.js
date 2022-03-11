@@ -3,8 +3,7 @@ import axios from 'axios';
 export default class EspApi {
 
   async playStation(stationObject) {
-    const url = stationObject.url.replace(/^https/i, "http");
-    const params = new URLSearchParams([['url', url]]);
+    const params = new URLSearchParams([['url', stationObject.url]]);
     // const params = 'url=' + url;
     return await axios.get('/actions/play', {params: params});
   }

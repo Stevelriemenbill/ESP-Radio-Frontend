@@ -143,17 +143,10 @@ export default {
       espApi.getSong().then(response => {
         this.setCurrentSong(response.data.song);
       });
-    },
-    getStation() {
-      const espApi = new EspApi();
-      espApi.getStation().then(response => {
-        this.setCurrentStation(response.data.station);
-      });
     }
   },
   created: function () {
     this.startEqualizer();
-    this.getStation();
     if (this.getSongInterval !== null) {
       clearInterval(this.getSongInterval);
     }
