@@ -229,9 +229,11 @@ export default {
       espApi.getStation().then(response => {
         var station = this.allStations.find(x => x.url === response.data.station);
         if (station !== null) {
+          console.log(station);
           this.setCurrentStation(station);
+        } else {
+          this.setCurrentStation(response.data.station);
         }
-        this.setCurrentStation(response.data.station);
       });
     }
   },

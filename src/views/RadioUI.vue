@@ -154,7 +154,6 @@ export default {
       clearInterval(this.getSongInterval);
     }
     this.getSongInterval = setInterval(() => {
-      console.log(this.currentStation);
       this.getSong();
     }, 3000);
   }
