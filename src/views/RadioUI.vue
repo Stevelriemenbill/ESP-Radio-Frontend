@@ -32,8 +32,11 @@
                   </v-col>
                 </v-row>
                 <v-row dense>
-                  <v-col class="station">
-                    {{ typeof currentStation === 'string' ? currentStation : currentStation.name }}
+                  <v-col class="station" v-if="typeof currentStation === 'string'">
+                    {{ currentStation }}
+                  </v-col>
+                  <v-col class="station" v-else>
+                    {{ currentStation.name }}
                   </v-col>
                 </v-row>
                 <v-row dense>
